@@ -3,6 +3,7 @@
 # @Author:MoyiTech
 # @Software: PyCharm
 import sys
+import copy
 
 from PyQt5 import QtGui
 import settings
@@ -43,26 +44,21 @@ class Gui(QMainWindow):
         self.central_widget.setStyleSheet('background-color: #92877d')
         self.central_widget.setLayout(self.grid)
 
-        # self.grids = []
-        # for i in range(4):
-        #     self.grids.append([])
-        #     for j in range(3):
-        #         text = QLabel()
-        #         self.grid.addWidget(text)
-        #         self.grids.append(text)
-
-
-
-
+        self.grids_matrix = copy.deepcopy(game.map)
+        for i in range(len(self.grids_matrix)):
+            for j in range(len(self.grids_matrix[i])):
+                text = QLabel()
+                self.grids_matrix[i][j] = text
+                self.grid.addWidget(text, i, j)
+        print(self.grids_matrix)
         print(self.positions)
-
         self.load_map()
 
         self.show()
 
     def load_map(self):
         for i, j in self.positions:
-            text = QLabel()
+            text = self.grids_matrix[i][j]  # type: QLabel
             if game.map[i][j] != 0:
                 item = str(game.map[i][j])
                 text.setText(item)
@@ -75,10 +71,13 @@ class Gui(QMainWindow):
                 font.setPixelSize(font.pointSize() * 4)
                 text.setFont(font)
             else:
+                text.setText('')
                 text.setStyleSheet('background-color: #9e948a')
 
             # text.setText()
-            self.grid.addWidget(text, i, j)
+
+            # self.grid.addWidget(text, i, j)
+        pass
 
     def to_center(self):
         qr = self.frameGeometry()

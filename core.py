@@ -121,9 +121,13 @@ class Game:
 
         return False
 
-    def is_game_over(self):
+    def is_game_over(self) -> bool:
+        """
+        若不可合并或且不存在空值时结束游戏
+        :return: is_game_over
+        """
         if not(self.merge_able() or self.have_empty()):
-            return False
+            return True
 
 
 if __name__ == '__main__':

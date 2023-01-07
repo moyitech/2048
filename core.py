@@ -108,7 +108,7 @@ class Game:
                 break
         return flag
 
-    def movable(self):
+    def merge_able(self):
         for line in self.map:
             for i in range(4-1):
                 if line[i] == line[i+1]:
@@ -120,6 +120,10 @@ class Game:
                     return True
 
         return False
+
+    def is_game_over(self):
+        if not(self.merge_able() or self.have_empty()):
+            return False
 
 
 if __name__ == '__main__':

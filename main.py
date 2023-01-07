@@ -5,13 +5,13 @@
 import sys
 import copy
 
-from PyQt5 import QtGui
+# from PyQt5 import QtGui
 import settings
 
 import core
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QMainWindow, QDesktopWidget, QApplication, QGridLayout, QLabel, QMessageBox
-from PyQt5.QtGui import QIcon, QFont
+from PyQt5.QtGui import QIcon, QFont, QKeyEvent
 
 
 class Gui(QMainWindow):
@@ -85,20 +85,23 @@ class Gui(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def keyPressEvent(self, a0: QtGui.QKeyEvent) -> None:
+    def keyPressEvent(self, a0: QKeyEvent) -> None:
         # 如果无法移动 且无空缺 游戏结束
         if a0.key() in self.keyboard_mapping:
+            # 没移动成功
             if not self.keyboard_mapping[a0.key()](game)():
-                if not (game.movable() or game.have_empty()):
-                    QMessageBox.information(self, 'game over', "GAME OVER!", QMessageBox.Yes, QMessageBox.Yes)
-                    print('Game over')
-                    game.__init__()
-                    game.print()
-                    self.load_map()
-                    return
+                return
             game.generate()
             game.print()
             self.load_map()
+            # 完成该步骤后 若不可合并或且不存在空值时结束游戏
+            if not (game.merge_able() or game.have_empty()):
+                QMessageBox.information(self, 'game over', "GAME OVER!", QMessageBox.Yes, QMessageBox.Yes)
+                print('Game over')
+                game.__init__()
+                game.print()
+                self.load_map()
+                pass
         # elif
 
 

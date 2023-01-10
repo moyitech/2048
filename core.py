@@ -129,6 +129,12 @@ class Game:
         if not(self.merge_able() or self.have_empty()):
             return True
 
+    def get_score(self):
+        score = 0
+        for i in self.map:
+            score += sum(i)
+        return score
+
 
 if __name__ == '__main__':
     game = Game()

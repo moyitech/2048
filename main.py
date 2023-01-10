@@ -37,6 +37,7 @@ class Gui(QMainWindow):
         self.setWindowIcon(QIcon('damotouicon.ico'))
         self.resize(400, 400)
         self.to_center()
+        self.statusBar().showMessage("score: ")
         self.setWindowTitle('2048 Game  by.moyi')
 
         # 配置栅格布局
@@ -83,6 +84,8 @@ class Gui(QMainWindow):
             else:
                 text.setText('')
                 text.setStyleSheet('background-color: #9e948a')  # 设置背景色
+
+        self.statusBar().showMessage(f'score: {game.get_score()}')
 
     def to_center(self):
         """
